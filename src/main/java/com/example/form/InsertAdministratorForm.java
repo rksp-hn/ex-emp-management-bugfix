@@ -14,11 +14,19 @@ public class InsertAdministratorForm {
 	
 	/** 名前 */
 	@NotBlank(message = "名前は必須です")
+	// @Sizeで文字数バリデーションを追加しました。
+	@Size(min = 1, max = 30, message = "名前は1文字以上30文字以内で記載してください。")
 	private String name;
 	/** メールアドレス */
+	// ＠NotBlankを追加しました。
+	@NotBlank
+	// @Sizeで文字数バリデーションを追加しました。
+	@Size(min = 1, max = 30, message = "メールアドレスは30文字以内で記載してください。")
 	@Email(message = "Eメールの形式が不正です")
 	private String mailAddress;
 	/** パスワード */
+	// ＠NotBlankを追加しました。
+	@NotBlank
 	@Size(min=1, max=127, message = "パスワードは1文字以上127文字以内で記載してください")
 	private String password;
 
