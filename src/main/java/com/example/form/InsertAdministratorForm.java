@@ -2,6 +2,7 @@ package com.example.form;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 /**
@@ -21,13 +22,16 @@ public class InsertAdministratorForm {
 	// ＠NotBlankを追加しました。
 	@NotBlank
 	// @Sizeで文字数バリデーションを追加しました。
-	@Size(min = 1, max = 30, message = "メールアドレスは30文字以内で記載してください。")
+	// メールアドレスの文字数制限を緩和しました。（ネット参照し技術的な上限値に設定しました。）
+	@Size(min = 1, max = 254, message = "メールアドレスは254文字以内で記載してください。")
 	@Email(message = "Eメールの形式が不正です")
 	private String mailAddress;
 	/** パスワード */
 	// ＠NotBlankを追加しました。
 	@NotBlank
-	@Size(min=1, max=127, message = "パスワードは1文字以上127文字以内で記載してください")
+	//パスワードのバリデーションを修正しました。（ネット参照し一般的なセキュリティ条件を満たしているよう設定しました。）
+	@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$")
+	@Size(min=8, message = "パスワードは英数字を含む8文字以上で記載してください")
 	private String password;
 
 	public String getName() {
