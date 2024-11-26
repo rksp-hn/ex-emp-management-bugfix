@@ -51,12 +51,9 @@ public class EmployeeController {
 	 * @return 従業員一覧画面
 	 */
 	@GetMapping("/showList")
-	public String showList(Model model, HttpSession session) {
+	public String showList(Model model) {
 		List<Employee> employeeList = employeeService.showList();
 		model.addAttribute("employeeList", employeeList);
-		// セッションから管理者名を取得してモデルに追加
-		String administratorName = (String) session.getAttribute("administratorName");
-		model.addAttribute("administratorName", administratorName);
 		return "employee/list";
 	}
 
