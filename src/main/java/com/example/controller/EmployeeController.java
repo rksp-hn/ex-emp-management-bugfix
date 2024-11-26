@@ -68,12 +68,9 @@ public class EmployeeController {
 	 * @return 従業員詳細画面
 	 */
 	@GetMapping("/showDetail")
-	public String showDetail(String id, Model model, HttpSession session) {
+	public String showDetail(String id, Model model) {
 		Employee employee = employeeService.showDetail(Integer.parseInt(id));
 		model.addAttribute("employee", employee);
-		// セッションから管理者名を取得してモデルに追加
-		String administratorName = (String) session.getAttribute("administratorName");
-		model.addAttribute("administratorName", administratorName);
 		return "employee/detail";
 	}
 
@@ -89,7 +86,7 @@ public class EmployeeController {
 	@PostMapping("/update")
 	public String update(@Validated UpdateEmployeeForm form, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return showDetail(form.getId(), model, null);
+			return showDetail(form.getId(), model);
 		}
 		Employee employee = new Employee();
 		employee.setId(form.getIntId());
