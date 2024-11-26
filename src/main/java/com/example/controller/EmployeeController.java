@@ -16,6 +16,8 @@ import com.example.domain.Employee;
 import com.example.form.UpdateEmployeeForm;
 import com.example.service.EmployeeService;
 
+import jakarta.servlet.http.HttpSession;
+
 /**
  * 従業員情報を操作するコントローラー.
  * 
@@ -49,9 +51,12 @@ public class EmployeeController {
 	 * @return 従業員一覧画面
 	 */
 	@GetMapping("/showList")
-	public String showList(Model model) {
+	public String showList(Model model, HttpSession session) {
 		List<Employee> employeeList = employeeService.showList();
 		model.addAttribute("employeeList", employeeList);
+		// セッションから管理者名を取得してモデルに追加
+		String administratorName = (String) session.getAttribute("administratorName");
+		model.addAttribute("administratorName", administratorName);
 		return "employee/list";
 	}
 
@@ -66,9 +71,12 @@ public class EmployeeController {
 	 * @return 従業員詳細画面
 	 */
 	@GetMapping("/showDetail")
-	public String showDetail(String id, Model model) {
+	public String showDetail(String id, Model model, HttpSession session) {
 		Employee employee = employeeService.showDetail(Integer.parseInt(id));
 		model.addAttribute("employee", employee);
+		// セッションから管理者名を取得してモデルに追加
+		String administratorName = (String) session.getAttribute("administratorName");
+		model.addAttribute("administratorName", administratorName);
 		return "employee/detail";
 	}
 
@@ -84,7 +92,7 @@ public class EmployeeController {
 	@PostMapping("/update")
 	public String update(@Validated UpdateEmployeeForm form, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			return showDetail(form.getId(), model);
+			return showDetail(form.getId(), model, null);
 		}
 		Employee employee = new Employee();
 		employee.setId(form.getIntId());
