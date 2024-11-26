@@ -40,4 +40,8 @@ public class AdministratorService {
 		Administrator administrator = administratorRepository.findByMailAddressAndPassward(mailAddress, password);
 		return administrator;
 	}
+	// 既に登録されているメールアドレスかをチェックします。
+    public boolean isEmailAlreadyRegistered(String mailAddress) {
+        return administratorRepository.findByMailAddress(mailAddress) != null;
+    }
 }

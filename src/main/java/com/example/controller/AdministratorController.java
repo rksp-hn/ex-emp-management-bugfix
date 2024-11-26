@@ -80,6 +80,12 @@ public class AdministratorController {
 		if (result.hasErrors()) {
 			return "administrator/insert";
 		}
+		// メールアドレスの重複チェックする
+		if (administratorService.isEmailAlreadyRegistered(form.getMailAddress())) {
+			model.addAttribute("insertAdministratorForm", form);
+			model.addAttribute("errorMessage", "このメールアドレスはすでに使用されています。");
+			return "administrator/insert";
+		}
 		Administrator administrator = new Administrator();
 		// フォームからドメインにプロパティ値をコピー
 		BeanUtils.copyProperties(form, administrator);
@@ -87,7 +93,7 @@ public class AdministratorController {
 		// ダブルサミット対策としてログイン画面にリダイレクトする処理を設定しました。
 		return "redirect:/";
 	}
-
+	
 	/////////////////////////////////////////////////////
 	// ユースケース：ログインをする
 	/////////////////////////////////////////////////////
@@ -114,6 +120,8 @@ public class AdministratorController {
 			redirectAttributes.addFlashAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
 			return "redirect:/";
 		}
+		// 管理者名をセッションに保存
+		session.setAttribute("administratorName", administrator.getName());
 		return "redirect:/employee/showList";
 	}
 
