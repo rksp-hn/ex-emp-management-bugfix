@@ -75,8 +75,7 @@ public class AdministratorController {
 	 * @return ログイン画面へリダイレクト
 	 */
 	@PostMapping("/insert")
-	public String insert(@Validated InsertAdministratorForm form, BindingResult result,
-			RedirectAttributes redirectAttributes, Model model) {
+	public String insert(@Validated InsertAdministratorForm form, BindingResult result, RedirectAttributes redirectAttributes, Model model) {
 		if (result.hasErrors()) {
 			return "administrator/insert";
 		}

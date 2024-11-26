@@ -1,5 +1,6 @@
 package com.example.form;
 
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -31,6 +32,13 @@ public class InsertAdministratorForm {
 	@Size(min=8, message = "")
 	private String password;
 
+	// 確認用パスワード入力フォームを追加しました。
+	@NotBlank(message = "確認用パスワードは必須です")	
+	@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$", message = "半角英数字を含む8文字以上で設定してください" )
+	@Size(min=8, message = "")
+	private String passwordConfirmation;
+
+
 	public String getName() {
 		return name;
 	}
@@ -55,10 +63,28 @@ public class InsertAdministratorForm {
 		this.password = password;
 	}
 
+	public String getPasswordConfirmation() {
+		return passwordConfirmation;
+	}
+
+	public void setPasswordConfirmation(String passwordConfirmation) {
+		this.passwordConfirmation = passwordConfirmation;
+	} 
+
 	@Override
 	public String toString() {
 		return "InsertAdministratorForm [name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
-				+ "]";
+				+ ", passwordConfirmation=" + passwordConfirmation + "]";
 	}
+	//パスワードの送還チェックを追加しました。
+	@AssertTrue(message = "「パスワード」と「確認用パスワード」が一致していません")
+	public boolean isPasswordValid() {
+		if (password == null || passwordConfirmation == null) {
+            return false;
+        }
+		
+		return password.equals(passwordConfirmation);
+	}
+
 
 }
