@@ -41,7 +41,9 @@
             <!-- ここから上を編集する必要はありません -->
 
             <!-- ここにモックのform要素を貼り付けます -->
-
+            <div th:if="${errorMessage}" class="alert alert-danger">
+              <p th:text="${errorMessage}"></p>
+            </div>
             <form
               method="post"
               action="login.html"
