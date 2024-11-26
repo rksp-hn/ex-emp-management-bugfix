@@ -82,9 +82,9 @@ public class AdministratorController {
 		}
 		// メールアドレスの重複チェックする
 		if (administratorService.isEmailAlreadyRegistered(form.getMailAddress())) {
-			redirectAttributes.addFlashAttribute("insertAdministratorForm", form);
-			redirectAttributes.addFlashAttribute("errorMessage", "このメールアドレスはすでに使用されています。");
-			return "redirect:/toInsert";
+			model.addAttribute("insertAdministratorForm", form);
+			model.addAttribute("errorMessage", "このメールアドレスはすでに使用されています。");
+			return "administrator/insert";
 		}
 		Administrator administrator = new Administrator();
 		// フォームからドメインにプロパティ値をコピー
